@@ -4,21 +4,21 @@
 
 <?php    
 
-    if(isset($_GET['value'])){
         $conec;
-
         try{
             $conec = new Conector();
-            $resp = $conec->login("SSIOnline", 6, $_GET['value']);
+            $resp = $conec->loginParticipante($_GET['q']);
 
-            http_response_code(200);
-            echo json_encode($resp, JSON_PRETTY_PRINT);
+            if($resp == false){
+                http_response_code(404);
+            }else{
+                http_response_code(200);
+                echo json_encode($resp, JSON_PRETTY_PRINT);
+            }
+            
         }catch(Exception $e){
             http_response_code(500);
         }
 
-
-    }else{
-        http_response_code(404);
-    }
+    $conec->desconectar();
 ?>
