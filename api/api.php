@@ -7,7 +7,7 @@
         $conec;
         try{
             $conec = new Conector();
-            $resp = $conec->loginParticipante($_GET['q']);
+            $resp = $conec->getPresencaPessoa($_GET['q']);
 
             if($resp == false){
                 http_response_code(404);
