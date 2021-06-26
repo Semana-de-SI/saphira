@@ -7,7 +7,7 @@
         $conec;
         try{
             $conec = new Conector();
-            $resp = $conec->getPresencaPessoa($_GET['q']);
+            $resp = $conec->getPalestraAtual($_GET['q']);
 
             if($resp == false){
                 http_response_code(404);

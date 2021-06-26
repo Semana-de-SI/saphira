@@ -11,6 +11,7 @@ class Conector
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Num_usp=?";
     private $getPresencaPessoaQuery = "CALL get_presenca_pessoa(?)";
+    private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
 
     function __construct()
     {
@@ -81,6 +82,19 @@ class Conector
             return false;
         }else{
             return $fetched;
+        }
+    }
+
+    public function getPalestraAtual($IdEvento){
+        $prepara = $this->link->prepare($this->getPalestraAtualQuery);
+        $prepara->bind_param('i', $IdEvento);
+        $prepara->execute();
+        $resultado = $prepara->get_result()->fetch_assoc();
+
+        if($resultado != null){
+            return $resultado;
+        }else{
+            return false;
         }
     }
 
