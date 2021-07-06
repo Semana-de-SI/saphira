@@ -12,6 +12,7 @@ class Conector
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Num_usp=?";
     private $getPresencaPessoaQuery = "CALL get_presenca_pessoa(?)";
     private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
+    private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES (?,?,?)";
 
     function __construct()
     {
@@ -62,6 +63,13 @@ class Conector
         } else {
             return false;
         }
+    }
+
+    public function cadastrarParticipante($nome, $documento, $email) {
+        $prepara = $this->link->prepare($this->registerParticipant);
+        $prepara->bind_param('sis', $nome, $documento, $email);
+        $prepara->execute();
+        return true;
     }
 
     public function getPresencaPessoa($numUsp)
