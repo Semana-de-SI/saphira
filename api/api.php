@@ -1,5 +1,5 @@
 <?php
-    include 'Conector.php'
+    include './conector.php'
 ?>
 
 <?php    
@@ -16,8 +16,8 @@
                 echo json_encode($resp, JSON_PRETTY_PRINT);
             }
             
-        }catch(Exception $e){
-            http_response_code(500);
+        } catch(Exception $e){
+          http_response_code(500);
         }
 
     $conec->desconectar();
