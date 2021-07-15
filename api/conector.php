@@ -15,7 +15,7 @@ class Conector
     private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES (?,?,?)";
     private $getPalestraByTokenQuery = "SELECT * FROM saphira_subdivisoes WHERE token=(?)";
     private $checkPresencaQuery = "SELECT * FROM saphira_presenca WHERE ID_pessoa=(?) AND ID_subdivisoes=(?)";
-    private $insertPresencaQuery = "INSERT INTO `saphira_presenca`(`ID_pessoa`, `ID_subdivisoes`) VALUES (?,?)";
+    private $insertPresencaQuery = "INSERT INTO saphira_presenca (`ID_pessoa`, `ID_subdivisoes`) VALUES (?,?)";
     private $getQuantidadePresencaQuery = "SELECT * FROM saphira_quantidade_presenca WHERE ID_evento=(?) and ID_pessoa =(?)";
     private $updateQuantidadePresencaQuery = "UPDATE `saphira_quantidade_presenca` SET `Quantidade_presenca`= (?) WHERE `ID_pessoa` = (?) and `ID_evento` = (?)";
     private $setNewUserQuantidadePresencaQuery = "INSERT INTO `saphira_quantidade_presenca`(`ID_pessoa`, `ID_evento`, `Quantidade_presenca`) VALUES (?,?,'1')";
@@ -115,7 +115,7 @@ class Conector
 
     public function getPalestraByToken($token){
         $prepara = $this->link->prepare($this->getPalestraByTokenQuery);
-        $prepara->bind_param('i', $token);
+        $prepara->bind_param('s', $token);
         $prepara->execute();
         $resultado = $prepara->get_result()->fetch_assoc();
 
@@ -143,13 +143,8 @@ class Conector
         $prepara = $this->link->prepare($this->insertPresencaQuery);
         $prepara->bind_param('ii', $ID_pessoa, $ID_subdivisoes);
         $prepara->execute();
-        $resultado = $prepara->get_result()->fetch_assoc();
 
-        if($resultado != null){
-            return $resultado;
-        }else{
-            return false;
-        }
+        return;
     }
 
     public function getQuantidadePresenca($ID_evento, $ID_pessoa){
@@ -169,39 +164,24 @@ class Conector
         $prepara = $this->link->prepare($this->updateQuantidadePresencaQuery);
         $prepara->bind_param('iii', $quantidade, $ID_pessoa, $ID_evento);
         $prepara->execute();
-        $resultado = $prepara->get_result()->fetch_assoc();
 
-        if($resultado != null){
-            return $resultado;
-        }else{
-            return false;
-        }
+        return;
     }
 
-    public function setNewUserQuantidadePresenca($ID_pessoa, $ID_evento, $quantidade){
+    public function setNewUserQuantidadePresenca($ID_pessoa, $ID_evento){
         $prepara = $this->link->prepare($this->setNewUserQuantidadePresencaQuery);
-        $prepara->bind_param('iii', $ID_pessoa, $ID_evento, $quantidade);
+        $prepara->bind_param('ii', $ID_pessoa, $ID_evento);
         $prepara->execute();
-        $resultado = $prepara->get_result()->fetch_assoc();
 
-        if($resultado != null){
-            return $resultado;
-        }else{
-            return false;
-        }
+        return;
     }
 
     public function updateParticipantesInPalestra($ID_subdivisoes){
         $prepara = $this->link->prepare($this->updateParticipantesInPalestraQuery);
         $prepara->bind_param('i', $ID_subdivisoes);
         $prepara->execute();
-        $resultado = $prepara->get_result()->fetch_assoc();
 
-        if($resultado != null){
-            return $resultado;
-        }else{
-            return false;
-        }
+        return;
     }
 
     public function desconectar()

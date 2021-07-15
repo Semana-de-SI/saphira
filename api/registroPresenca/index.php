@@ -1,5 +1,5 @@
 <?php
-	include("../conector.php");
+  include("../conector.php");
 ?>
 
 <?php
@@ -8,25 +8,25 @@
   $mensagem = "";
   $codigo = 0;
 
-  if (!(empty($_POST['nusp'])) && !(empty($_POST['token'])) && !(empty($_POST['idEvento']))){
-    $token = preg_replace('/[^[:alnum:]_]/', '', $_POST['token']);
-    $nusp = preg_replace('/[^[:alnum:]_]/', '', $_POST['nusp']);
-    $resultParticipante = conec->loginParticipante($nusp);
+  if (!(empty($_REQUEST['nusp'])) && !(empty($_REQUEST['token'])) && !(empty($_REQUEST['idEvento']))){
+    $token = preg_replace('/[^[:alnum:]_]/', '', $_REQUEST['token']);
+    $nusp = preg_replace('/[^[:alnum:]_]/', '', $_REQUEST['nusp']);
+    $resultParticipante = $conec->loginParticipante($nusp);
 
-    if(resultParticipante != false){
-      $resultPalestra = conec->getPalestraByToken($token);
+    if($resultParticipante != false){
+      $resultPalestra = $conec->getPalestraByToken($token);
 
-      if(resultPalestra != false){
-        if(resultPalestra['dataExpiraToken'] > date('Y-m-d H:i:s')){
-          $resultPresenca = conec->checkPresenca($resultParticipante['ID_pessoa'], $resultPalestra['ID_subdivisoes']);
+      if($resultPalestra != false){
+        if($resultPalestra['dataExpiraToken'] > date('Y-m-d H:i:s')){
+          $resultPresenca = $conec->checkPresenca($resultParticipante['ID_pessoa'], $resultPalestra['ID_subdivisoes']);
 
-          if(resultPresenca == false){ // Ainda nao tem presenca
-            $conec->insertPresenca(resultParticipante['ID_pessoa'], resultPalestra['ID_subdivisoes']);
+          if($resultPresenca == false){ // Ainda nao tem presenca
+            $conec->insertPresenca($resultParticipante['ID_pessoa'], $resultPalestra['ID_subdivisoes']);
 
-            $resultQuantidadePresenca = $conec->getQuantidadePresenca(resultPalestra['ID_evento'], resultParticipante['ID_pessoa']);
+            $resultQuantidadePresenca = $conec->getQuantidadePresenca($resultPalestra['ID_evento'], $resultParticipante['ID_pessoa']);
 
-            if(resultQuantidadePresenca != false){ // 
-              $newQuantidade = resultQuantidadePresenca['Quantidade_presenca'] + 1;
+            if($resultQuantidadePresenca != false){ // 
+              $newQuantidade = $resultQuantidadePresenca['Quantidade_presenca'] + 1;
               $conec->updateQuantidadePresenca($newQuantidade, $resultParticipante['ID_pessoa'], $resultPalestra['ID_evento']);
 
             } else { // Primeira palestra da pessoa no evento
