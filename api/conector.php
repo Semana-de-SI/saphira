@@ -6,7 +6,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 class Conector
 {
-    private mysqli $link;
+    private $link;
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Num_usp=?";
