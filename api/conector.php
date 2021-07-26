@@ -1,8 +1,5 @@
 <?php
-
-use GrahamCampbell\ResultType\Result;
-
-include_once __DIR__ . '/vendor/autoload.php';
+require_once("../vendor/autoload.php" );
 
 class Conector
 {
@@ -16,7 +13,7 @@ class Conector
 
     function __construct()
     {
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv\Dotenv::createImmutable("..");
         $dotenv->load();
         $this->conectar();
     }
@@ -111,3 +108,4 @@ class Conector
         $this->link->close();
     }
 }
+?>
