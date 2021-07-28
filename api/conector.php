@@ -1,5 +1,5 @@
 <?php
-require_once("../vendor/autoload.php" );
+    require(__DIR__."/../vendor/autoload.php");
 
 class Conector
 {
@@ -13,7 +13,7 @@ class Conector
 
     function __construct()
     {
-        $dotenv = Dotenv\Dotenv::createImmutable("..");
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/..");
         $dotenv->load();
         $this->conectar();
     }
