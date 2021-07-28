@@ -7,11 +7,11 @@
 	session_start();
 	$_SESSION['Logado'] = false;
 	if (isset($_POST["Enviar"])) {
-		$sql = "SELECT * FROM saphira_usuario WHERE Login='".$_POST["Login"]."' and Senha='".$_POST["Senha"]."'";
+		$sql = "SELECT * FROM saphira_usuario WHERE Login='".$_POST["Login"]."'";
 		// echo $sql;
 		$result = mysqli_query($link, $sql);
-		if (mysqli_num_rows($result) >= 1) {
-			$row = mysqli_fetch_assoc($result);
+		$row = mysqli_fetch_assoc($result);
+		if (password_verify($_POST["Senha"], $row["Senha"])) {
 			$_SESSION['idEvento'] = $row["ID_evento"];
 			$_SESSION['Usuario'] = $_POST["Login"];
 			$_SESSION['Logado'] = true; //Define que o usuario está logando, será usado em todas as paginas no arquivo logado.php

@@ -1,5 +1,5 @@
 <?php
-    include 'Conector.php'
+    include 'conector.php'
 ?>
 
 <?php    
