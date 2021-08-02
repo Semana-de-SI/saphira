@@ -1,8 +1,8 @@
 <?php
-    include 'Conector.php'
+    include './conector.php'
 ?>
 
-<?php    
+<?php
 
         $conec;
         try{
@@ -11,14 +11,16 @@
 
             if($resp == false){
                 http_response_code(404);
+                echo json_encode(Array("message" => "Palestra não encontrada!"));
             }else{
                 http_response_code(200);
                 echo json_encode($resp, JSON_PRETTY_PRINT);
             }
             
-        }catch(Exception $e){
-            http_response_code(500);
+            $conec->desconectar();
+        } catch(Exception $e){
+          echo $e;
+          http_response_code(500);
         }
 
-    $conec->desconectar();
 ?>
