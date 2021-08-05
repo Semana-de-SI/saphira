@@ -63,7 +63,7 @@
     $mensagem = "Alguma das credenciais está faltando (Nusp, Token, Id do evento)";
     $codigo = 400;
   }
-  
+
   $conec->desconectar();
-  echo json_encode(Array("message" => $mensagem, "code" => $codigo), JSON_PRETTY_PRINT);
+  echo json_encode(Array("message" => $mensagem, "code" => $codigo), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>

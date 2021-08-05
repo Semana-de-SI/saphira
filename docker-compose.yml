@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  saphira:
+    container_name: saphira
+    build: .
+    environment:
+      local: db
+      nome: ssi
+      senha: ssi
+      db: saphira
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - 8000:80
+  db:
+    container_name: db
+    build: ./database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: v41s3r70p
+      MYSQL_DATABASE: saphira
+      MYSQL_USER: ssi
+      MYSQL_PASSWORD: ssi
+    ports:
+      - 9906:3306

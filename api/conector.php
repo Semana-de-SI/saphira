@@ -7,6 +7,8 @@ include_once __DIR__ . '/vendor/autoload.php';
 class Conector
 {
     private $link;
+    private $getAllParticipants = "SELECT Nome, Num_usp FROM saphira_pessoa";
+    private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.Num_usp=?";
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Num_usp=?";
@@ -77,6 +79,30 @@ class Conector
         $prepara->bind_param('sis', $nome, $documento, $email);
         $prepara->execute();
         return true;
+    }
+
+    public function getParticipantInfo($documento) {
+        if (empty($documento)) {
+            $prepara = $this->link->prepare($this->getAllParticipants);
+        }
+        else {
+            $prepara = $this->link->prepare($this->getParticipantInfo);
+            $prepara->bind_param('i', $documento);
+        }
+        $prepara->execute();
+        return $prepara->get_result()->fetch_assoc();
+    }
+
+    public function updateParticipantInfo($documento, $dados) {
+        if (empty($documento)) {
+            $prepara = $this->link->prepare($this->getAllParticipants);
+        }
+        else {
+            $prepara = $this->link->prepare($this->getParticipantInfo);
+            $prepara->bind_param('i', $documento);
+        }
+        $prepara->execute();
+        return $prepara->get_result()->fetch_assoc();
     }
 
     public function getPresencaPessoa($numUsp)
