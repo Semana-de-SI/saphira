@@ -8,10 +8,10 @@ class Conector
 {
     private $link;
     private $getAllParticipants = "SELECT Nome, Num_usp FROM saphira_pessoa";
-    private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.Num_usp=?";
+    private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.email=?";
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
-    private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Num_usp=?";
+    private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE email=?";
     private $getPresencaPessoaQuery = "CALL get_presenca_pessoa(?)";
     private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
     private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES (?,?,?)";
@@ -60,10 +60,10 @@ class Conector
         return password_verify($senha, $resultado['Senha']);
     }
 
-    public function loginParticipante($login)
+    public function loginParticipante($email)
     {
         $prepara = $this->link->prepare($this->loginParticipanteQuery);
-        $prepara->bind_param('i', $login);
+        $prepara->bind_param('s', $email);
         $prepara->execute();
         $resultado = $prepara->get_result()->fetch_assoc();
 
@@ -81,13 +81,13 @@ class Conector
         return true;
     }
 
-    public function getParticipantInfo($documento) {
-        if (empty($documento)) {
+    public function getParticipantInfo($email) {
+        if (empty($email)) {
             $prepara = $this->link->prepare($this->getAllParticipants);
         }
         else {
             $prepara = $this->link->prepare($this->getParticipantInfo);
-            $prepara->bind_param('i', $documento);
+            $prepara->bind_param('s', $email);
         }
         $prepara->execute();
         return $prepara->get_result()->fetch_assoc();

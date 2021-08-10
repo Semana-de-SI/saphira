@@ -7,7 +7,7 @@
 	$mensagem = "";
 	$data = Array();
 	$codigo = 0;
-	$usuarios = $conec->getParticipantInfo($_REQUEST["doc"]);
+	$usuarios = $conec->getParticipantInfo($_REQUEST["email"]);
 
 	if ($usuarios != false) {
 		$mensagem = "Usuário(s) encontrado";

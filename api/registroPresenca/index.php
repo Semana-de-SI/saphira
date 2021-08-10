@@ -8,10 +8,10 @@
   $mensagem = "";
   $codigo = 0;
 
-  if (!(empty($_REQUEST['nusp'])) && !(empty($_REQUEST['token'])) && !(empty($_REQUEST['idEvento']))){
+  if (!(empty($_REQUEST['email'])) && !(empty($_REQUEST['token'])) && !(empty($_REQUEST['idEvento']))){
     $token = preg_replace('/[^[:alnum:]_]/', '', $_REQUEST['token']);
-    $nusp = preg_replace('/[^[:alnum:]_]/', '', $_REQUEST['nusp']);
-    $resultParticipante = $conec->loginParticipante($nusp);
+    $email = $_REQUEST['email'];
+    $resultParticipante = $conec->loginParticipante($email);
 
     if($resultParticipante != false){
       $resultPalestra = $conec->getPalestraByToken($token);
