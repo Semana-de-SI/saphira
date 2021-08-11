@@ -235,3 +235,5 @@ class Conector
         $this->link->close();
     }
 }
+
+header('Access-Control-Allow-Origin: *');
