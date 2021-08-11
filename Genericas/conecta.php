@@ -1,5 +1,5 @@
 <?php
-	$link = mysqli_connect("localhost", "root", "", "saphira");
+	$link = mysqli_connect($_ENV['local'], $_ENV['nome'], $_ENV['senha'], $_ENV['db']);
 	// mysql_set_charset('utf8');
 
 	if (!$link) {

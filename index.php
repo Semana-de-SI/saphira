@@ -65,9 +65,6 @@
 				<input class=".input--style-4 inputTextoBonito" style="max-width: 350px;" type="password" name="Senha" placeholder="Senha">
 				<input type="hidden" name="Erro">
 				<input type="submit" class="btn btn--radius-2 btn--purple" style="margin-left: auto;margin-right: auto; width: 30%; max-width: 350px;" name="Enviar" value="Enviar">
-				<br>
-				<input type="button" class="btn btn--radius-2 btn--purple"  style="margin-left: auto;margin-right: auto; width: 30%; max-width: 350px;" onclick="window.location='loginParticipante.php';" value="Login Participante">
-
 			</div>
 		</form>
 	</div>
