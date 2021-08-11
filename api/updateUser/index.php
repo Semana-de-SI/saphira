@@ -5,17 +5,38 @@
 <?php
 	$conec = new Conector();
 	$mensagem = "";
-	$data = Array();
 	$codigo = 0;
-	$usuarios = false;
-	if (!empty($_REQUEST["doc"])) {
-		if ($usuarios != false) {
-			$mensagem = "Usuário(s) encontrado";
-			$data = $usuarios;
+	if (!(empty($_REQUEST["nome"])
+	    || empty($_REQUEST["doc"])
+	    || empty($_REQUEST["email"])
+	    || empty($_REQUEST["idade"])
+	    || empty($_REQUEST["genero"])
+	    || empty($_REQUEST["redes"])
+	    || empty($_REQUEST["cursando"])
+	    || empty($_REQUEST["curso"])
+	    || empty($_REQUEST["ano"])
+	    || empty($_REQUEST["periodo"])
+	    || empty($_REQUEST["estagio"])
+	    || empty($_REQUEST["condicoes"]))) {
+		$usuarios = $conec->getParticipant();
+		if ($usuario != false) {
+			$conec->updateParticipantInfo(empty($_REQUEST["nome"])
+				, empty($_REQUEST["doc"])
+				, empty($_REQUEST["email"])
+				, empty($_REQUEST["idade"])
+				, empty($_REQUEST["genero"])
+				, empty($_REQUEST["redes"])
+				, empty($_REQUEST["cursando"])
+				, empty($_REQUEST["curso"])
+				, empty($_REQUEST["ano"])
+				, empty($_REQUEST["periodo"])
+				, empty($_REQUEST["estagio"])
+				, empty($_REQUEST["condicoes"]));
+			$mensagem = "Usuário atualizado com sucesso";
 			$codigo = 200;
 		}
 		else {
-			$mensagem = "Usuário(s) não encontrado";
+			$mensagem = "Usuário não encontrado";
 			$codigo = 400;
 		}
 	}

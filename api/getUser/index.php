@@ -15,7 +15,7 @@
 		$codigo = 200;
 	}
 	else {
-		$mensagem = "Usuário(s) não encontrado";
+		$mensagem = "Usuário(s) não encontrado(s)";
 		$codigo = 400;
 	}
 

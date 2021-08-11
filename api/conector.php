@@ -7,14 +7,18 @@ include_once __DIR__ . '/vendor/autoload.php';
 class Conector
 {
     private $link;
-    private $getAllParticipants = "SELECT Nome, Num_usp FROM saphira_pessoa";
-    private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.email=?";
+    private $getAllParticipants = "SELECT Nome, Documento FROM saphira_pessoa";
+    private $getParticipant = "SELECT * FROM saphira_pessoa WHERE Email=?";
+    private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.Email=?";
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
-    private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE email=?";
+    private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Email=?";
     private $getPresencaPessoaQuery = "CALL get_presenca_pessoa(?)";
     private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
-    private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES (?,?,?)";
+    private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES (?,?,?)";
+    private $registerParticipantExtra = "INSERT INTO `saphira_cad_complementar`(`ID_pessoa`, `Idade`, `Genero`, `Redes`, `Cursando`, `Curso`, `Ano`, `Periodo`, `Estagio`, `Condicoes`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private $updateParticipant = "UPDATE `saphira_pessoa` SET `Nome` = (?), `Documento` = (?) WHERE `Email` = (?)";
+    private $updateParticipantExtra = "UPDATE `saphira_cad_complementar` SET `Idade` = (?), `Genero` = (?), `Redes` = (?), `Cursando` = (?), `Curso` = (?), `Ano` = (?), `Periodo` = (?), `Estagio` = (?), `Condicoes` = (?) WHERE `ID_pessoa` = (?)";
     private $getPalestraByTokenQuery = "SELECT * FROM saphira_subdivisoes WHERE token=(?)";
     private $checkPresencaQuery = "SELECT * FROM saphira_presenca WHERE ID_pessoa=(?) AND ID_subdivisoes=(?)";
     private $insertPresencaQuery = "INSERT INTO saphira_presenca (`ID_pessoa`, `ID_subdivisoes`) VALUES (?,?)";
@@ -74,10 +78,25 @@ class Conector
         }
     }
 
-    public function cadastrarParticipante($nome, $documento, $email) {
-        $prepara = $this->link->prepare($this->registerParticipant);
-        $prepara->bind_param('sis', $nome, $documento, $email);
+    public function getParticipant($email) {
+        $prepara = $this->link->prepare($this->getParticipant);
+        $prepara->bind_param('s', $email);
         $prepara->execute();
+        return $prepara->get_result()->fetch_assoc();
+    }
+
+    public function cadastrarParticipante($nome, $documento, $email, $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes) {
+        $prepara = $this->link->prepare($this->registerParticipant);
+        $prepara->bind_param('sss', $nome, $documento, $email);
+        $prepara->execute();
+
+        $userInfo = $this->getParticipant($email);
+
+        // ID_pessoa, Idade, Genero, Redes, Cursando, Curso, Ano, Periodo, Estagio, Condicoes
+        $prepara = $this->link->prepare($this->registerParticipantExtra);
+        $prepara->bind_param('iissssissi', $userInfo["ID_pessoa"], $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes);
+        $prepara->execute();
+
         return true;
     }
 
@@ -93,22 +112,23 @@ class Conector
         return $prepara->get_result()->fetch_assoc();
     }
 
-    public function updateParticipantInfo($documento, $dados) {
-        if (empty($documento)) {
-            $prepara = $this->link->prepare($this->getAllParticipants);
-        }
-        else {
-            $prepara = $this->link->prepare($this->getParticipantInfo);
-            $prepara->bind_param('i', $documento);
-        }
+    public function updateParticipantInfo($nome, $documento, $email, $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes) {
+        $prepara = $this->link->prepare($this->updateParticipant);
+        $prepara->bind_param('sss', $nome, $documento, $email);
         $prepara->execute();
-        return $prepara->get_result()->fetch_assoc();
+
+        $userInfo = $this->getParticipant($email);
+
+        $prepara = $this->link->prepare($this->updateParticipantExtra);
+        $prepara->bind_param('issssissii', $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes, $userInfo["ID_pessoa"]);
+        $prepara->execute();
+        return true;
     }
 
-    public function getPresencaPessoa($numUsp)
+    public function getPresencaPessoa($document)
     {
         $prepara = $this->link->prepare($this->getPresencaPessoaQuery);
-        $prepara->bind_param('i', $numUsp);
+        $prepara->bind_param('i', $document);
         $prepara->execute();
         $resultado = $prepara->get_result();
         $fetched = null;
