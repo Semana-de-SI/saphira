@@ -7,18 +7,20 @@ include_once __DIR__ . '/vendor/autoload.php';
 class Conector
 {
     private $link;
-    private $getAllParticipants = "SELECT Nome, Documento FROM saphira_pessoa";
+    private $getAllParticipants = "SELECT Nome, Email FROM saphira_pessoa";
     private $getParticipant = "SELECT * FROM saphira_pessoa WHERE Email=?";
     private $getParticipantInfo = "SELECT * FROM saphira_pessoa as p LEFT JOIN saphira_cad_complementar as cc ON p.ID_pessoa=cc.ID_pessoa WHERE p.Email=?";
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Email=?";
-    private $getPresencaPessoaQuery = "CALL get_presenca_pessoa(?)";
+    private $getPresencaPessoa = "SELECT s.Nome FROM saphira_presenca as pr INNER JOIN saphira_pessoa as p ON pr.ID_pessoa=p.ID_pessoa INNER JOIN saphira_subdivisoes as s ON pr.ID_subdivisoes=s.ID_subdivisoes WHERE p.email=(?);";
     private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
     private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES (?,?,?)";
     private $registerParticipantExtra = "INSERT INTO `saphira_cad_complementar`(`ID_pessoa`, `Idade`, `Genero`, `Redes`, `Cursando`, `Curso`, `Ano`, `Periodo`, `Estagio`, `Condicoes`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private $registerParticipantExtraWoutGrad = "INSERT INTO `saphira_cad_complementar`(`ID_pessoa`, `Idade`, `Genero`, `Redes`, `Cursando`, `Estagio`, `Condicoes`) VALUES (?,?,?,?,?,?,?)";
     private $updateParticipant = "UPDATE `saphira_pessoa` SET `Nome` = (?), `Documento` = (?) WHERE `Email` = (?)";
     private $updateParticipantExtra = "UPDATE `saphira_cad_complementar` SET `Idade` = (?), `Genero` = (?), `Redes` = (?), `Cursando` = (?), `Curso` = (?), `Ano` = (?), `Periodo` = (?), `Estagio` = (?), `Condicoes` = (?) WHERE `ID_pessoa` = (?)";
+    private $updateParticipantExtraWoutGrad = "UPDATE `saphira_cad_complementar` SET `Idade` = (?), `Genero` = (?), `Redes` = (?), `Cursando` = (?), `Estagio` = (?), `Condicoes` = (?) WHERE `ID_pessoa` = (?)";
     private $getPalestraByTokenQuery = "SELECT * FROM saphira_subdivisoes WHERE token=(?)";
     private $checkPresencaQuery = "SELECT * FROM saphira_presenca WHERE ID_pessoa=(?) AND ID_subdivisoes=(?)";
     private $insertPresencaQuery = "INSERT INTO saphira_presenca (`ID_pessoa`, `ID_subdivisoes`) VALUES (?,?)";
@@ -100,16 +102,33 @@ class Conector
         return true;
     }
 
+    public function cadastrarParticipanteSemCurso($nome, $documento, $email, $idade, $genero, $redes, $cursando, $estagio, $condicoes) {
+        $prepara = $this->link->prepare($this->registerParticipant);
+        $prepara->bind_param('sss', $nome, $documento, $email);
+        $prepara->execute();
+
+        $userInfo = $this->getParticipant($email);
+
+        // ID_pessoa, Idade, Genero, Redes, Cursando, Curso, Ano, Periodo, Estagio, Condicoes
+        $prepara = $this->link->prepare($this->registerParticipantExtraWoutGrad);
+        $prepara->bind_param('iissssi', $userInfo["ID_pessoa"], $idade, $genero, $redes, $cursando, $estagio, $condicoes);
+        $prepara->execute();
+
+        return true;
+    }
+
     public function getParticipantInfo($email) {
         if (empty($email)) {
             $prepara = $this->link->prepare($this->getAllParticipants);
+            $prepara->execute();
+            return $prepara->get_result()->fetch_all();
         }
         else {
             $prepara = $this->link->prepare($this->getParticipantInfo);
             $prepara->bind_param('s', $email);
+            $prepara->execute();
+            return $prepara->get_result()->fetch_assoc();
         }
-        $prepara->execute();
-        return $prepara->get_result()->fetch_assoc();
     }
 
     public function updateParticipantInfo($nome, $documento, $email, $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes) {
@@ -123,6 +142,27 @@ class Conector
         $prepara->bind_param('issssissii', $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes, $userInfo["ID_pessoa"]);
         $prepara->execute();
         return true;
+    }
+
+    public function updateParticipantInfoWoutGrad($nome, $documento, $email, $idade, $genero, $redes, $cursando, $estagio, $condicoes) {
+        $prepara = $this->link->prepare($this->updateParticipant);
+        $prepara->bind_param('sss', $nome, $documento, $email);
+        $prepara->execute();
+
+        $userInfo = $this->getParticipant($email);
+
+        $prepara = $this->link->prepare($this->updateParticipantExtraWoutGrad);
+        $prepara->bind_param('issssissii', $idade, $genero, $redes, $cursando, $estagio, $condicoes, $userInfo["ID_pessoa"]);
+        $prepara->execute();
+        return true;
+    }
+
+    public function getPresenca($email)
+    {
+        $prepara = $this->link->prepare($this->getPresencaPessoa);
+        $prepara->bind_param('s', $email);
+        $prepara->execute();
+        return $prepara->get_result()->fetch_all();
     }
 
     public function getPresencaPessoa($document)
