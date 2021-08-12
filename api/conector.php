@@ -13,7 +13,7 @@ class Conector
     private $getEventoQuery = "SELECT * FROM saphira_evento WHERE ID_evento=?";
     private $loginQuery = "SELECT Senha FROM saphira_usuario WHERE Login=? AND ID_evento=?";
     private $loginParticipanteQuery = "SELECT * FROM saphira_pessoa WHERE Email=?";
-    private $getPresencaPessoa = "SELECT s.Nome FROM saphira_presenca as pr INNER JOIN saphira_pessoa as p ON pr.ID_pessoa=p.ID_pessoa INNER JOIN saphira_subdivisoes as s ON pr.ID_subdivisoes=s.ID_subdivisoes WHERE p.email=(?);";
+    private $getPresencaPessoa = "SELECT s.Nome FROM saphira_presenca as pr INNER JOIN saphira_pessoa as p ON pr.ID_pessoa=p.ID_pessoa INNER JOIN saphira_subdivisoes as s ON pr.ID_subdivisoes=s.ID_subdivisoes WHERE p.Email=(?);";
     private $getPalestraAtualQuery = "SELECT * FROM saphira_subdivisoes WHERE ID_evento=? AND NOW() < dataExpiraToken";
     private $registerParticipant = "INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES (?,?,?)";
     private $registerParticipantExtra = "INSERT INTO `saphira_cad_complementar`(`ID_pessoa`, `Idade`, `Genero`, `Redes`, `Cursando`, `Curso`, `Ano`, `Periodo`, `Estagio`, `Condicoes`) VALUES (?,?,?,?,?,?,?,?,?,?)";

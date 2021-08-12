@@ -10,7 +10,7 @@
 
 	if (!empty($_REQUEST["email"])) {
 		$usuario = $conec->getParticipantInfo($_REQUEST["email"]);
-		if ($usuarios != false) {
+		if ($usuario != false) {
 			$mensagem = "Usuário encontrado";
 			$data = $usuario;
 			$codigo = 200;
