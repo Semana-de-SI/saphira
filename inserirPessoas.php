@@ -32,23 +32,23 @@
 		$aEmail = explode("\r\n", $_POST['Email']);
 		if (count($aNro) == count($aNro) and count($aNro) == count($aEmail)) {
 			foreach ($aNro as $x => $valor) {
-				$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$aNro[$x]."'"; //Verifica se a pessoa ja existe
+				$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$aNro[$x]."'"; //Verifica se a pessoa ja existe
 				$result = mysqli_query($link, $sql);
 				if (mysqli_num_rows($result) >= 1) {
 					$row = mysqli_fetch_assoc($result);
 					//Se ja existe, atualiza o banco
-					$sql="UPDATE `saphira_pessoa` SET `Nome`= '".$aNomes[$x]."',`email`= '".$aEmail[$x]."' WHERE `Num_usp` = '".$aNro[$x]."'";
+					$sql="UPDATE `saphira_pessoa` SET `Nome`= '".$aNomes[$x]."',`Email`= '".$aEmail[$x]."' WHERE `Documento` = '".$aNro[$x]."'";
 					$result = mysqli_query($link, $sql);
-					echo "<p class=\"nomeLista\">Cadastro atualizado! (".$row['Nome']." -> ".$aNomes[$x]." || ".$row['email']." -> ".$aEmail[$x].")</p>";
+					echo "<p class=\"nomeLista\">Cadastro atualizado! (".$row['Nome']." -> ".$aNomes[$x]." || ".$row['Email']." -> ".$aEmail[$x].")</p>";
 				}
 				else {
 					//Pessoas que ainda n existem no banco
-					$sql="INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES ('".$aNomes[$x]."','".$aNro[$x]."','".$aEmail[$x]."')";
+					$sql="INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES ('".$aNomes[$x]."','".$aNro[$x]."','".$aEmail[$x]."')";
 					$result = mysqli_query($link, $sql);
 					echo "<p class=\"nomeLista\">Pessoa cadastrada! (".$aNomes[$x]." - ".$aNro[$x]." - ".$aEmail[$x].")</p>";
 
 					//Aqui inicializa a tabela quantiade_presenca!
-					$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$aNro[$x]."'";
+					$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$aNro[$x]."'";
 					$result = mysqli_query($link, $sql);
 					if (mysqli_num_rows($result) >= 1) {
 						$row = mysqli_fetch_assoc($result);

@@ -39,19 +39,19 @@
 										$nroUSP = $_POST['nroUSP'];
 									}
 								?>
-								<input type="number" name="nroUSP" id="cod" class="input--style-4 inputTextoBonito" placeholder="nroUSP/CPF"style="background-color: #dedede;" value="<?php echo $nroUSP;?>">
+								<input type="text" name="nroUSP" id="cod" class="input--style-4 inputTextoBonito" placeholder="nroUSP/CPF"style="background-color: #dedede;" value="<?php echo $nroUSP;?>">
 								<input type="submit" name="Procurar" value="Procurar" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo']?>;">
 							</div>
 							<div style="text-align: center;">
 								<?php
 									if (isset($_POST['nroUSP'])) {
-										$sql = "SELECT * FROM saphira_pessoa as A INNER JOIN saphira_quantidade_presenca as B on A.ID_pessoa = B.ID_pessoa WHERE Num_usp='".$_POST['nroUSP']."'";
+										$sql = "SELECT * FROM saphira_pessoa as A INNER JOIN saphira_quantidade_presenca as B on A.ID_pessoa = B.ID_pessoa WHERE Documento='".$_POST['nroUSP']."'";
 										$result = mysqli_query($link, $sql);
 										if (mysqli_num_rows($result) >= 1) {
 											$row = mysqli_fetch_assoc($result)
 											?><h2 class="nomeLista" style="font-size: 2.5em;"><?php echo $row['Nome'];?></h2><?php
 											?><?php
-											?><h3 class="palestrasLista" style="color: <?php echo $_SESSION['corfundo'];?>;"> Numero USP: <?php echo $row['Num_usp'];?></h3>
+											?><h3 class="palestrasLista" style="color: <?php echo $_SESSION['corfundo'];?>;"> Numero USP: <?php echo $row['Documento'];?></h3>
 											<?php
 											?><br>
 											<h3 class="nuspLista" style="color: <?php echo $_SESSION['corfundo'];?>;">ID: <?php echo $row['ID_pessoa'];?></h3>

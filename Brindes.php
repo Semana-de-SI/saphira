@@ -5,7 +5,7 @@
 
 <?php
 	if (isset($_POST['nroUSP'])) {
-		$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_POST['nroUSP']."'";
+		$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_POST['nroUSP']."'";
 		$result = mysqli_query($link, $sql);
 		if (mysqli_num_rows($result) >= 1) {
 			$row = mysqli_fetch_assoc($result);

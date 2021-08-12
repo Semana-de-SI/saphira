@@ -76,7 +76,7 @@
 															document.getElementById('loader').style.display = "none";
 															document.getElementById('sorteado').style.display = "block";
 														},
-														(Math.random() * 3000) + 1000
+														(Math.random() * 1000) + 500
 													);
 												</script> <?php
 											}

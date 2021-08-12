@@ -8,7 +8,7 @@
 <?php
 	if (isset($_POST['senha']) && isset($_POST['senhaConf'])) {
 		if ($_POST['senha'] == $_POST['senhaConf']) {
-			$sql="UPDATE `saphira_usuario` SET `Senha`= '".$_POST['senha']."' WHERE `Login` = '".$_SESSION['Usuario']."'";
+			$sql="UPDATE `saphira_usuario` SET `Senha`= '".password_hash($_POST['senha'], PASSWORD_BCRYPT, ["salt" => $hash_salt])."' WHERE `Login` = '".$_SESSION['Usuario']."'";
 			$result = mysqli_query($link, $sql);
 			echo "<script type='text/javascript'>alert('Senha Atualizada!');</script>";
 		}

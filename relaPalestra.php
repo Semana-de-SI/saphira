@@ -8,7 +8,7 @@
 	}
 	
 	if (isset($_POST['BaixarContagemAluno'])) {
-		$sql2 = "SELECT C.Nome,Num_usp,C.email, COUNT(*) as contagem FROM saphira_presenca as A INNER JOIN saphira_subdivisoes as B on A.ID_subdivisoes=B.ID_subdivisoes INNER JOIN saphira_pessoa as C on A.ID_pessoa=C.ID_pessoa WHERE B.ID_evento='" . $_SESSION['idEvento'] . "' GROUP BY C.Nome";
+		$sql2 = "SELECT C.Nome,Documento,C.Email, COUNT(*) as contagem FROM saphira_presenca as A INNER JOIN saphira_subdivisoes as B on A.ID_subdivisoes=B.ID_subdivisoes INNER JOIN saphira_pessoa as C on A.ID_pessoa=C.ID_pessoa WHERE B.ID_evento='" . $_SESSION['idEvento'] . "' GROUP BY C.Nome";
 		$result = mysqli_query($link, $sql2);
 		if (mysqli_num_rows($result) >= 1) {
 			// Definimos o nome do arquivo que será exportado
@@ -28,9 +28,9 @@
 			$html .= '</tr>';
 			while ($row = mysqli_fetch_assoc($result)) {
 				$html .= '<tr>';
-				$html .= '<td>' . $row['Num_usp'] . '</td>';
+				$html .= '<td>' . $row['Documento'] . '</td>';
 				$html .= '<td>' . tirarAcentos($row['Nome']) . '</td>';
-				$html .= '<td>' . $row['email'] . '</td>';
+				$html .= '<td>' . $row['Email'] . '</td>';
 				$html .= '<td>' . $row['contagem'] . '</td>';
 				$html .= '</tr>';
 			}
@@ -79,12 +79,12 @@
 		}
 		$html .= '</tr>';
 		while ($row = mysqli_fetch_assoc($result)) {
-			$sql = "SELECT Num_usp, Nome FROM saphira_pessoa WHERE ID_pessoa='" . $row['ID_pessoa'] . "'";
+			$sql = "SELECT Documento, Nome FROM saphira_pessoa WHERE ID_pessoa='" . $row['ID_pessoa'] . "'";
 			$result2 = mysqli_query($link, $sql);
 			if (mysqli_num_rows($result2) >= 1) {
 				$row2 = mysqli_fetch_assoc($result2);
 				$html .= '<tr>';
-				$html .= '<td>' . $row2['Num_usp'] . '</td>';
+				$html .= '<td>' . $row2['Documento'] . '</td>';
 				$html .= '<td>' . tirarAcentos($row2['Nome']) . '</td>';
 				if ($_POST['subdivisao'] == "*") {
 					$html .= '<td>' . $row['Nome'] . '</td>';
@@ -94,15 +94,15 @@
 		}
 		$html .= '</table>';
 		// Configurações header para forçar o download
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Pragma: no-cache");
-	
+		//header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		//header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+		//header("Cache-Control: no-cache, must-revalidate");
+		//header("Pragma: no-cache");
+
 		if (isset($_POST['Baixar'])) {
-			header("Content-type: application/x-msexcel");
-			header("Content-Disposition: attachment; filename=\"{$arquivo}\"");
-			header("Content-Description: PHP Generated Data");
+			//header("Content-type: application/x-msexcel");
+			//header("Content-Disposition: attachment; filename=\"{$arquivo}\"");
+			//header("Content-Description: PHP Generated Data");
 			//nvia o conteúdo do arquivo
 			echo $html;
 			exit;
@@ -171,7 +171,7 @@
 												$row2 = mysqli_fetch_assoc($result2);
 												?> <div style="text-align: center;">
 													<div style="text-align: justify-all;">
-														<h3 class="nomeLista" style="font-weight: normal;"><?php echo $row2['Num_usp'] ?> - <?php echo $row2['Nome']; ?></h3>
+														<h3 class="nomeLista" style="font-weight: normal;"><?php echo $row2['Documento'] ?> - <?php echo $row2['Nome']; ?></h3>
 													</div>
 												</div> <?php
 											}
@@ -179,13 +179,13 @@
 									}
 								}
 								else {
-									$sql = "SELECT C.Nome,Num_usp, COUNT(*) as contagem FROM saphira_presenca as A INNER JOIN saphira_subdivisoes as B on A.ID_subdivisoes=B.ID_subdivisoes INNER JOIN saphira_pessoa as C on A.ID_pessoa=C.ID_pessoa WHERE B.ID_evento='" . $_SESSION['idEvento'] . "' GROUP BY C.Nome";
+									$sql = "SELECT C.Nome, C.Documento, COUNT(*) as contagem FROM saphira_presenca as A INNER JOIN saphira_subdivisoes as B on A.ID_subdivisoes=B.ID_subdivisoes INNER JOIN saphira_pessoa as C on A.ID_pessoa=C.ID_pessoa WHERE B.ID_evento='" . $_SESSION['idEvento'] . "' GROUP BY C.Nome";
 									$result = mysqli_query($link, $sql);
 									while ($row = mysqli_fetch_assoc($result)) {
 									?>
 									<div style="text-align: center;">
 										<div style="text-align: justify-all;">
-											<h3 class="nomeLista" style="font-weight: normal;"><?php echo $row['Num_usp'] ?> - <?php echo $row['Nome']; ?> - <?php echo $row['contagem']; ?></h3>
+											<h3 class="nomeLista" style="font-weight: normal;"><?php echo $row['Documento'] ?> - <?php echo $row['Nome']; ?> - <?php echo $row['contagem']; ?></h3>
 										</div>
 									</div>
 										<?php

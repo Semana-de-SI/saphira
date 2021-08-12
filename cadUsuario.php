@@ -8,7 +8,7 @@
 		$sql = "SELECT * FROM saphira_usuario WHERE Login='".$_POST["Login"]."'";
 		$result = mysqli_query($link, $sql);
 		if (mysqli_num_rows($result) < 1) {
-			$sql="INSERT INTO `saphira_usuario`(`Login`, `Senha`,`ID_evento`) VALUES ('".$_POST["Login"]."','".$_POST["Senha"]."','".$_POST["ID_evento"]."')"; 
+			$sql="INSERT INTO `saphira_usuario`(`Login`, `Senha`,`ID_evento`) VALUES ('".$_POST["Login"]."','".password_hash($_POST["Senha"], PASSWORD_BCRYPT, ["salt" => $hash_salt])."','".$_POST["ID_evento"]."')";
 			$result = mysqli_query($link, $sql);
 			echo "<script type='text/javascript'>alert('Usuario cadastrado com sucesso!')</script>";
 		}

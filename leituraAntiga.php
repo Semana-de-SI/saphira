@@ -55,7 +55,7 @@
 							<div style="text-align: center;">
 								<?php
 									if (isset($_POST['cod']) && isset($_POST['Enviar']) && !isset($_POST['nome'])) {
-										$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_POST['cod']."'";
+										$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_POST['cod']."'";
 										$result = mysqli_query($link, $sql);
 										if (mysqli_num_rows($result) >= 1) { // Verifica se a pessoa existe
 											$row = mysqli_fetch_assoc($result);
@@ -102,9 +102,9 @@
 											?><script type="text/javascript">console.log("Nome vazio!")</script><?php
 										}
 										else {
-											$sql="INSERT INTO `saphira_pessoa`(`Num_palestras`, `Nome`, `Num_usp`) VALUES ('1','".$_POST['nome']."','".$_POST['cod']."')"; 
+											$sql="INSERT INTO `saphira_pessoa`(`Num_palestras`, `Nome`, `Documento`) VALUES ('1','".$_POST['nome']."','".$_POST['cod']."')"; 
 											$result = mysqli_query($link, $sql);
-											$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_POST['cod']."'";
+											$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_POST['cod']."'";
 											$result = mysqli_query($link, $sql);
 											if (mysqli_num_rows($result) >= 1) {
 												$row = mysqli_fetch_assoc($result);

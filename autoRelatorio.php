@@ -45,12 +45,12 @@
 							<div style="text-align: center; margin-bottom: 50px;">
 								<?php
 									if (isset($_SESSION['cod'])) {
-										$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_SESSION['cod']."'";
+										$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_SESSION['cod']."'";
 										$result = mysqli_query($link, $sql);
 										if (mysqli_num_rows($result) >= 1) {
 											$row = mysqli_fetch_assoc($result);
 											?><h2 class="nomeLista" style="font-size: 1.5em;"><?php echo $row['Nome'];?></h2>
-											<h3 class="palestrasLista" style="color: <?php echo $_SESSION['corfundo'];?>;"> Numero USP/CPF: <?php echo $row['Num_usp'];?></h3>
+											<h3 class="palestrasLista" style="color: <?php echo $_SESSION['corfundo'];?>;"> Numero USP/CPF: <?php echo $row['Documento'];?></h3>
 											<hr style="width: 50%;"> <?php
 											$sql = "SELECT * FROM saphira_subdivisoes as A INNER JOIN saphira_presenca as B on A.ID_subdivisoes = B.ID_subdivisoes WHERE ID_pessoa='".$row['ID_pessoa']. "' AND ID_evento='" . $_SESSION['idEvento'] . "'";
 											$result2 = mysqli_query($link, $sql);

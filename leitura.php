@@ -46,14 +46,14 @@
 							}
 						?>
 						<form id="form" method="POST">
-							<div style="width: 100%; text-align: center;"> 
-								<input type="number" name="cod" id="cod" autofocus class="input--style-4 inputTextoBonito" style="background-color: #dedede;">
+							<div style="width: 100%; text-align: center;">
+								<input type="text" name="cod" id="cod" autofocus class="input--style-4 inputTextoBonito" style="background-color: #dedede;">
 								<input type="submit" name="Enviar" value="Enviar" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo']?>;">
 							</div>
 							<div style="text-align: center;">
 								<?php
 									if (isset($_POST['cod']) && isset($_POST['Enviar']) && !isset($_POST['nome'])) {
-										$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_POST['cod']."'";
+										$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_POST['cod']."'";
 										$result2 = mysqli_query($link, $sql);
 										if (mysqli_num_rows($result2) >= 1) { // Verifica se a pessoa existe
 											$row = mysqli_fetch_assoc($result2);

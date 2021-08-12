@@ -3,10 +3,10 @@
 
 <?php 
 if ((isset($_POST["Enviar"]) && !(empty($_POST["Nome"]) || empty($_POST["NroUSP"]) || empty($_POST["Email"])))) {
-	$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='".$_POST["NroUSP"]."'";
+	$sql = "SELECT * FROM saphira_pessoa WHERE Documento='".$_POST["NroUSP"]."'";
 	$result = mysqli_query($link, $sql);
 	if (mysqli_num_rows($result) < 1) {
-		$sql="INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES ('".$_POST["Nome"]."','".$_POST["NroUSP"]."','".$_POST["Email"]."')"; 
+		$sql="INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES ('".$_POST["Nome"]."','".$_POST["NroUSP"]."','".$_POST["Email"]."')"; 
 		$result = mysqli_query($link, $sql);
 		echo "<script type='text/javascript'>alert('Usuario cadastrado com sucesso!')</script>";
 	}

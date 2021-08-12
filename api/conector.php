@@ -63,7 +63,7 @@ class Conector
         $prepara->execute();
         $resultado = $prepara->get_result()->fetch_assoc();
 
-        return password_verify($senha, $resultado['Senha']);
+        return password_verify(password_hash($senha, PASSWORD_BCRYPT, ["salt" => "uma palavra uma frase qualquer coisa"]), $resultado['Senha']);
     }
 
     public function loginParticipante($email)

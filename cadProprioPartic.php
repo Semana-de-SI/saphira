@@ -62,10 +62,10 @@
 			$erro = $erro . "Vc precisa aceitar as codi&ccedil;&otilde;es para cadastrar<br>";
 		}
 		if (!$possuiErro) {
-			$sql = "SELECT Num_usp FROM saphira_pessoa WHERE Num_usp='" . $_POST["NroUSP"] . "'";
+			$sql = "SELECT Documento FROM saphira_pessoa WHERE Documento='" . $_POST["NroUSP"] . "'";
 			$result = mysqli_query($link, $sql);
 			if (mysqli_num_rows($result) < 1) {
-				$sql = "INSERT INTO `saphira_pessoa`(`Nome`, `Num_usp`,`email`) VALUES ('" . $_POST["Nome"] . "','" . $_POST["NroUSP"] . "','" . $_POST["Email"] . "');";
+				$sql = "INSERT INTO `saphira_pessoa`(`Nome`, `Documento`,`Email`) VALUES ('" . $_POST["Nome"] . "','" . $_POST["NroUSP"] . "','" . $_POST["Email"] . "');";
 				$result = mysqli_query($link, $sql);
 
 				if ($_POST["Condicoes"] == "on") {
@@ -76,7 +76,7 @@
 					$aceitouCondicoes = false;
 				}
 
-				$sql = "SELECT ID_pessoa FROM saphira_pessoa WHERE Num_usp='" . $_POST["NroUSP"] . "'";
+				$sql = "SELECT ID_pessoa FROM saphira_pessoa WHERE Documento='" . $_POST["NroUSP"] . "'";
 				$result = mysqli_query($link, $sql);
 				if (mysqli_num_rows($result) >= 1) {
 					$row = mysqli_fetch_assoc($result);

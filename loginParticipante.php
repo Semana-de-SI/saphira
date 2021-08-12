@@ -7,8 +7,11 @@
 	// $_SESSION['Usuario'] = $_POST["Login"];
 	$_SESSION['LogadoParticipante'] = true; //Define que o usuario está logando, será usado em todas as paginas no arquivo logado.php
 
-	$sql = "SELECT * FROM saphira_evento WHERE ID_evento='" . $_SESSION['idEvento'] . "'";
-	$result = mysqli_query($link, $sql);
+	$sql = "SELECT * FROM saphira_evento WHERE ID_evento=(?)";
+	$stmt = mysqli_prepare($link, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $_SESSION['idEvento']);
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
 	if (mysqli_num_rows($result) >= 1) {
 		$row = mysqli_fetch_assoc($result);
 		//Define as personalizações do sistema!
@@ -16,21 +19,26 @@
 		$_SESSION['logo'] = "Logos/" . $row['Nome_logo'];
 		$_SESSION['particulas'] = $row['Particula'];
 	}
+	mysqli_stmt_close($stmt);
 ?>
-<!DOCTYPE html>
 <?php
 	if (isset($_POST['cod']) && isset($_POST['Enviar'])) {
 		$_SESSION['cod'] = $_POST['cod'];
-		$sql = "SELECT Nome FROM saphira_pessoa WHERE Num_usp='" . $_POST['cod'] . "'";
-		$result2 = mysqli_query($link, $sql);
+		$sql = "SELECT Nome FROM saphira_pessoa WHERE Documento=(?)";
+		$stmt = mysqli_prepare($link, $sql);
+		mysqli_stmt_bind_param($stmt, "s", $_POST['cod']);
+		mysqli_stmt_execute($stmt);
+		$result2 = mysqli_stmt_get_result($stmt);
 		if (mysqli_num_rows($result2) >= 1) { // Verifica se a pessoa existe
 			header('Location: autoRelatorio.php');
 		}
 		else {
 			header('Location: cadProprioPartic.php');
 		}
+		mysqli_stmt_close($stmt);
 	}
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<link rel="icon" type="image/png" sizes="32x32" href="favicon/logo.png">
@@ -63,7 +71,7 @@
 						<form method="POST" id="form">
 							<div class="input-group" style="margin-bottom: 10px;">
 								<div class="rs-select2 js-select-simple select--no-search">
-									<input type="number" name="cod" id="cod" placeholder="nroUSP/CPF" autofocus class="input--style-4 inputTextoBonito" style="background-color: #dedede;">
+									<input type="text" name="cod" id="cod" placeholder="nroUSP/CPF" autofocus class="input--style-4 inputTextoBonito" style="background-color: #dedede;">
 								</div>
 							</div>
 							<input type="submit" name="Enviar" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo'] ?>;" value="Enviar" />

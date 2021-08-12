@@ -7,17 +7,23 @@
 	session_start();
 	$_SESSION['Logado'] = false;
 	if (isset($_POST["Enviar"])) {
-		$sql = "SELECT * FROM saphira_usuario WHERE Login='".$_POST["Login"]."' and Senha='".$_POST["Senha"]."'";
-		// echo $sql;
-		$result = mysqli_query($link, $sql);
+		$pass_hash = password_hash($_POST["Senha"], PASSWORD_BCRYPT, ["salt" => $hash_salt]);
+		$sql = "SELECT * FROM saphira_usuario WHERE Login=(?) and Senha=(?)";
+		$stmt = mysqli_prepare($link, $sql);
+		mysqli_stmt_bind_param($stmt, "ss", $_POST["Login"], $pass_hash);
+		mysqli_stmt_execute($stmt);
+		$result = mysqli_stmt_get_result($stmt);
 		if (mysqli_num_rows($result) >= 1) {
 			$row = mysqli_fetch_assoc($result);
 			$_SESSION['idEvento'] = $row["ID_evento"];
 			$_SESSION['Usuario'] = $_POST["Login"];
 			$_SESSION['Logado'] = true; //Define que o usuario está logando, será usado em todas as paginas no arquivo logado.php
-			$sql = "SELECT * FROM saphira_evento WHERE ID_evento='".$row["ID_evento"]."'";
-			// echo $sql;
-			$result = mysqli_query($link, $sql);
+			mysqli_stmt_close($stmt);
+			$sql = "SELECT * FROM saphira_evento WHERE ID_evento=(?)";
+			$stmt = mysqli_prepare($link, $sql);
+			mysqli_stmt_bind_param($stmt, "i", $row["ID_evento"]);
+			mysqli_stmt_execute($stmt);
+			$result = mysqli_stmt_get_result($stmt);
 			if (mysqli_num_rows($result) >= 1) {
 				$row = mysqli_fetch_assoc($result);
 				//Define as personalizações do sistema!
@@ -30,6 +36,7 @@
 		else{
 			?><script type="text/javascript">alert("Dados errados =(");</script><?php
 		}
+		mysqli_stmt_close($stmt);
 	}
 ?>
 <!DOCTYPE html>

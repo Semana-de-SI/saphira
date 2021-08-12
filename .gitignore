@@ -1,2 +1,2 @@
 *.env
-database/saphira.sql
+database/saphira.sql*

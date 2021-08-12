@@ -51,7 +51,7 @@
 							if (isset($_POST['cod']) && isset($_POST['Enviar']) && isset($_POST['token'])) {
 								$token = preg_replace('/[^[:alnum:]_]/', '', $_POST['token']);
 								$cod = preg_replace('/[^[:alnum:]_]/', '', $_POST['cod']);
-								$sql = "SELECT * FROM saphira_pessoa WHERE Num_usp='" . $cod . "'";
+								$sql = "SELECT * FROM saphira_pessoa WHERE Documento='" . $cod . "'";
 								$result2 = mysqli_query($link, $sql);
 								if (mysqli_num_rows($result2) >= 1) { // Verifica se a pessoa existe
 									$row = mysqli_fetch_assoc($result2);
