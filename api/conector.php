@@ -38,7 +38,7 @@ class Conector
 
     public function conectar()
     {
-        $this->link = new mysqli($_ENV['local'], $_ENV['nome'], $_ENV['senha'], $_ENV['db']);
+        $this->link = new mysqli($_ENV['HOST'], $_ENV['USER'], $_ENV['PASS'], $_ENV['DATABASE']);
         if ($this->link->connect_errno) {
             throw new RuntimeException("Não foi possível conectar ao banco de dados");
         }
@@ -118,17 +118,10 @@ class Conector
     }
 
     public function getParticipantInfo($email) {
-        if (empty($email)) {
-            $prepara = $this->link->prepare($this->getAllParticipants);
-            $prepara->execute();
-            return $prepara->get_result()->fetch_all();
-        }
-        else {
-            $prepara = $this->link->prepare($this->getParticipantInfo);
-            $prepara->bind_param('s', $email);
-            $prepara->execute();
-            return $prepara->get_result()->fetch_assoc();
-        }
+        $prepara = $this->link->prepare($this->getParticipantInfo);
+        $prepara->bind_param('s', $email);
+        $prepara->execute();
+        return $prepara->get_result()->fetch_assoc();
     }
 
     public function updateParticipantInfo($nome, $documento, $email, $idade, $genero, $redes, $cursando, $curso, $ano, $periodo, $estagio, $condicoes) {

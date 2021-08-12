@@ -3,7 +3,7 @@
 ?>
 <?php
 	session_start();
-	$_SESSION['idEvento'] = 6; //Coloquei hardcoded a da SSI Online
+	$_SESSION['idEvento'] = 2; //Coloquei hardcoded a da SSI Online
 	// $_SESSION['Usuario'] = $_POST["Login"];
 	$_SESSION['LogadoParticipante'] = true; //Define que o usuario está logando, será usado em todas as paginas no arquivo logado.php
 

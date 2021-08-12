@@ -7,15 +7,21 @@
 	$mensagem = "";
 	$data = Array();
 	$codigo = 0;
-	$usuarios = $conec->getParticipantInfo($_REQUEST["email"]);
 
-	if ($usuarios != false) {
-		$mensagem = "Usuário(s) encontrado";
-		$data = $usuarios;
-		$codigo = 200;
+	if (!empty($_REQUEST["email"])) {
+		$usuario = $conec->getParticipantInfo($_REQUEST["email"]);
+		if ($usuarios != false) {
+			$mensagem = "Usuário encontrado";
+			$data = $usuario;
+			$codigo = 200;
+		}
+		else {
+			$mensagem = "Usuário não encontrado";
+			$codigo = 400;
+		}
 	}
 	else {
-		$mensagem = "Usuário(s) não encontrado(s)";
+		$mensagem = "Dados insuficientes";
 		$codigo = 400;
 	}
 
