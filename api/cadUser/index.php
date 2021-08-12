@@ -10,11 +10,11 @@
 	    || empty($_REQUEST["email"])  || empty($_REQUEST["idade"])
 	    || empty($_REQUEST["genero"]) || empty($_REQUEST["redes"])
 	    || empty($_REQUEST["cursando"]))) {
-		$usuarios = $conec->getParticipantInfo($_REQUEST["email"]);
+		$usuario = $conec->getParticipantInfo($_REQUEST["email"]);
 		$condic = $_REQUEST["condicoes"] == "true" ? 1 : 0;
 
-		if ($usuarios == false) {
-			if ($_REQUEST["cursando"] == "Sim" && !( empty($_REQUEST["curso"])
+		if ($usuario == false) {
+			if ($_REQUEST["cursando"] == "true" && !( empty($_REQUEST["curso"])
 			    || empty($_REQUEST["ano"])     || empty($_REQUEST["periodo"])
 			    || empty($_REQUEST["estagio"]) || empty($_REQUEST["condicoes"]))) {
 				$conec->cadastrarParticipante($_REQUEST["nome"]
@@ -38,7 +38,6 @@
 				                                      , $_REQUEST["genero"]
 				                                      , $_REQUEST["redes"]
 				                                      , $_REQUEST["cursando"]
-				                                      , $_REQUEST["estagio"]
 				                                      , $condic);
 			}
 			$mensagem = "Usuário cadastrado com sucesso";
