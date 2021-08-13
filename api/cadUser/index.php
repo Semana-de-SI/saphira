@@ -6,17 +6,17 @@
 	$conec = new Conector();
 	$mensagem = "";
 	$codigo = 0;
-	if (!(empty($_REQUEST["nome"])    || empty($_REQUEST["doc"])
-	    || empty($_REQUEST["email"])  || empty($_REQUEST["idade"])
-	    || empty($_REQUEST["genero"]) || empty($_REQUEST["redes"])
-	    || empty($_REQUEST["cursando"]))) {
+	if (!(empty($_REQUEST["nome"])      || empty($_REQUEST["doc"])
+	    || empty($_REQUEST["email"])    || empty($_REQUEST["idade"])
+	    || empty($_REQUEST["genero"])   || empty($_REQUEST["redes"])
+	    || empty($_REQUEST["cursando"]) || empty($_REQUEST["condicoes"]))) {
 		$usuario = $conec->getParticipantInfo($_REQUEST["email"]);
 		$condic = $_REQUEST["condicoes"] == "true" ? 1 : 0;
 
 		if ($usuario == false) {
 			if ($_REQUEST["cursando"] == "true" && !( empty($_REQUEST["curso"])
 			    || empty($_REQUEST["ano"])     || empty($_REQUEST["periodo"])
-			    || empty($_REQUEST["estagio"]) || empty($_REQUEST["condicoes"]))) {
+			    || empty($_REQUEST["estagio"]))) {
 				$conec->cadastrarParticipante($_REQUEST["nome"]
 				                              , $_REQUEST["doc"]
 				                              , $_REQUEST["email"]
