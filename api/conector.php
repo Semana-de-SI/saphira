@@ -111,7 +111,7 @@ class Conector
 
         // ID_pessoa, Idade, Genero, Redes, Cursando, Curso, Ano, Periodo, Estagio, Condicoes
         $prepara = $this->link->prepare($this->registerParticipantExtraWoutGrad);
-        $prepara->bind_param('iissssi', $userInfo["ID_pessoa"], $idade, $genero, $redes, $cursando, $condicoes);
+        $prepara->bind_param('iisssi', $userInfo["ID_pessoa"], $idade, $genero, $redes, $cursando, $condicoes);
         $prepara->execute();
 
         return true;
