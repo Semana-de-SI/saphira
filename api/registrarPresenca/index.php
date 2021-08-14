@@ -25,7 +25,7 @@
 
             $resultQuantidadePresenca = $conec->getQuantidadePresenca($resultPalestra['ID_evento'], $resultParticipante['ID_pessoa']);
 
-            if($resultQuantidadePresenca != false){ // 
+            if($resultQuantidadePresenca != false){
               $newQuantidade = $resultQuantidadePresenca['Quantidade_presenca'] + 1;
               $conec->updateQuantidadePresenca($newQuantidade, $resultParticipante['ID_pessoa'], $resultPalestra['ID_evento']);
 
@@ -34,11 +34,11 @@
             }
 
             $conec->updateParticipantesInPalestra($resultPalestra['ID_subdivisoes']);
-            $mensagem = "Presença do usuário ".$resultParticipante['Ñome']." confirmada com sucesso!";
+            $mensagem = "Presença do usuário ".$resultParticipante['Nome']." confirmada com sucesso!";
             $codigo = 200;
 
           } else { // Ja possui presenca na palestra
-            $mensagem = "Este usuário já possui presença nesta palestra";
+            $mensagem = "Usuário já possui presença nesta palestra";
             $codigo = 405;
           }
         } else { // Token expirado
