@@ -57,6 +57,12 @@
 								<input type="submit" name="Sortear" id="Sortear" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo']?>;" value="Sortear!"/>
 								<div style="text-align: center;">
 									<div class="loader" id="loader" style="display: none;"></div>
+									<div>
+										<span id="hour" class="btn btn--radius-2">00</span>:<span id="minute" class="btn btn--radius-2" >00</span>:<span id="second" class="btn btn--radius-2" >00</span>:<span id="millisecond" class="btn btn--radius-2" >000</span>
+									</div>
+									<button type="button" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
+									<button type="button" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
+									<button type="button" name="reset" style="background-color: <?php echo $_SESSION['corfundo']?>;">reset</button>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
@@ -69,7 +75,8 @@
 													$row = mysqli_fetch_assoc($result)
 													?><h2 style="font-size: 5em; display: none; margin-bottom: 0;" class="title" id="sorteado"><?php echo $row['Nome'];?></h2><?php 
 												}
-												?> <script type="text/javascript">
+												?> 
+												<script type="text/javascript">
 													document.getElementById('loader').style.display = "block";
 													setTimeout(
 														function() {
@@ -78,6 +85,7 @@
 														},
 														(Math.random() * 1000) + 500
 													);
+													start()
 												</script> <?php
 											}
 										}
@@ -93,8 +101,61 @@
 	<?php include 'Genericas/voltar.php' ?>
 </html>
 <script type="text/javascript">
-	function envia() {
-		document.getElementById('Sortear').value = "aaaa";
-		document.getElementById('myform').submit();
-	}
+function envia() {
+	document.getElementById('Sortear').value = "aaaa";
+	document.getElementById('myform').submit();
+}
+let hour = 0;
+let minute = 0;
+let second = 0;
+let millisecond = 0;
+
+let cron;
+
+document.form_main.start.onclick = () => start();
+document.form_main.pause.onclick = () => pause();
+document.form_main.reset.onclick = () => reset();
+
+function start() {
+  pause();
+  cron = setInterval(() => { timer(); }, 10);
+}
+
+function pause() {
+  clearInterval(cron);
+}
+
+function reset() {
+  hour = 0;
+  minute = 0;
+  second = 0;
+  millisecond = 0;
+  document.getElementById('hour').innerText = '00';
+  document.getElementById('minute').innerText = '00';
+  document.getElementById('second').innerText = '00';
+  document.getElementById('millisecond').innerText = '000';
+}
+
+function timer() {
+  if ((millisecond += 10) == 1000) {
+    millisecond = 0;
+    second++;
+  }
+  if (second == 60) {
+    second = 0;
+    minute++;
+  }
+  if (minute == 60) {
+    minute = 0;
+    hour++;
+  }
+  document.getElementById('hour').innerText = returnData(hour);
+  document.getElementById('minute').innerText = returnData(minute);
+  document.getElementById('second').innerText = returnData(second);
+  document.getElementById('millisecond').innerText = returnData(millisecond);
+}
+
+function returnData(input) {
+  return input > 10 ? input : `0${input}`
+}
 </script>
