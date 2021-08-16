@@ -86,6 +86,10 @@ function returnData(input) {
 				0% { transform: rotate(0deg); }
 				100% { transform: rotate(360deg); }
 			}
+			span{
+				margin: 15px;
+				cursor: pointer;
+			}
 		</style>
 		<?php include 'Genericas/estilo.php'; ?>
 	</head>
@@ -110,9 +114,6 @@ function returnData(input) {
 									<div>
 										<b><span id="iniciar" style="color:<?php echo $_SESSION['corfundo']?>;">Iniciar</span>     <span id="pausar" style="color:<?php echo $_SESSION['corfundo']?>;">Pausar</span>     <span id="resetar" style="color:<?php echo $_SESSION['corfundo']?>;">Reiniciar</span></b>
 									</div>
-									<button class="btn btn--radius-2" type="button" onclick="start" name="start" style="line-height: all; color:<?php echo $_SESSION['corfundo']?>; border-style:solid; border-width: thin; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Iniciar</button>
-									<button class="btn btn--radius-2" type="button" onclick="pause" name="pause" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Pausar</button>
-									<button class="btn btn--radius-2" type="button" onclick="reset" name="reset" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Reiniciar</button>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
