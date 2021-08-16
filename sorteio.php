@@ -18,7 +18,7 @@ let millisecond = 0;
 let cron;
 
 document.getElementById('iniciar').onclick = () => start();
-ddocument.getElementById('pausar').onclick = () => pause();
+document.getElementById('pausar').onclick = () => pause();
 document.getElementById('resetar').onclick = () => reset();
 
 function start() {
@@ -37,7 +37,6 @@ function reset() {
 
   document.getElementById('minute').innerText = '00';
   document.getElementById('second').innerText = '00';
-  document.getElementById('millisecond').innerText = '000';
 }
 
 function timer() {
@@ -51,7 +50,6 @@ function timer() {
   }
   document.getElementById('minute').innerText = returnData(minute);
   document.getElementById('second').innerText = returnData(second);
-  document.getElementById('millisecond').innerText = returnData(millisecond);
 }
 
 function returnData(input) {
@@ -106,7 +104,7 @@ function returnData(input) {
 								<input type="submit" name="Sortear" id="Sortear" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo']?>;" value="Sortear!"/>
 								<div style="text-align: center;">
 									<div class="loader" id="loader" style="display: none;"></div>
-									<div>
+									<div style="font-size: 45px;">
 										<span id="minute"  >00</span>:<span id="second"  >00</span>
 									</div>
 									<div>
