@@ -1,5 +1,5 @@
 <?php
-	// include 'Genericas/logado.php';
+	include 'Genericas/logado.php';
 	include 'Genericas/conecta.php';
 ?>
 
