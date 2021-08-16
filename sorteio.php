@@ -1,5 +1,5 @@
 <?php
-	include 'Genericas/logado.php';
+	// include 'Genericas/logado.php';
 	include 'Genericas/conecta.php';
 ?>
 
@@ -17,9 +17,9 @@ let millisecond = 0;
 
 let cron;
 
-document.form_main.start.onclick = () => start();
-document.form_main.pause.onclick = () => pause();
-document.form_main.reset.onclick = () => reset();
+document.myform.start.onclick = () => start();
+document.myform.pause.onclick = () => pause();
+document.myform.reset.onclick = () => reset();
 
 function start() {
   pause();
@@ -64,11 +64,6 @@ function returnData(input) {
   return input > 10 ? input : `0${input}`
 }
 </script>
-<style>
-	span{
-		font-color: black;
-	}
-</style>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -118,7 +113,7 @@ function returnData(input) {
 								<div style="text-align: center;">
 									<div class="loader" id="loader" style="display: none;"></div>
 									<div>
-										<span id="hour" class="btn btn--radius-2">00</span>:<span id="minute" class="btn btn--radius-2" >00</span>:<span id="second" class="btn btn--radius-2" >00</span>:<span id="millisecond" class="btn btn--radius-2" >000</span>
+										<span id="hour" >00</span>:<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
 									</div>
 									<button type="button" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
 									<button type="button" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
