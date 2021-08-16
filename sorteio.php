@@ -59,13 +59,13 @@
 							<form method="POST" id="myform">
 								<input type="submit" name="Sortear" id="Sortear" class="btn btn--radius-2" style="background-color: <?php echo $_SESSION['corfundo']?>;" value="Sortear!"/>
 								<div style="text-align: center;">
-									<div class="loader" id="loader" style="display: none;"></div>
 									<div style="font-size: 45px;">
 										<span id="minute"  >00</span>:<span id="second"  >00</span>
 									</div>
 									<div>
 										<b><span id="iniciar" style="color:<?php echo $_SESSION['corfundo']?>;">Iniciar</span>     <span id="pausar" style="color:<?php echo $_SESSION['corfundo']?>;">Pausar</span>     <span id="resetar" style="color:<?php echo $_SESSION['corfundo']?>;">Reiniciar</span></b>
 									</div>
+									<div class="loader" id="loader" style="display: none;"></div>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
