@@ -113,11 +113,11 @@ function returnData(input) {
 								<div style="text-align: center;">
 									<div class="loader" id="loader" style="display: none;"></div>
 									<div>
-										<span id="hour" >00</span>:<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
+										<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
 									</div>
-									<button type="button" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
-									<button type="button" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
-									<button type="button" name="reset" style="background-color: <?php echo $_SESSION['corfundo']?>;">reset</button>
+									<button type="button" onclick="start()" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
+									<button type="button" onclick="pause()" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
+									<button type="button" onclick="reset()" name="reset" style="background-color: <?php echo $_SESSION['corfundo']?>;">reset</button>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
@@ -137,10 +137,10 @@ function returnData(input) {
 														function() {
 															document.getElementById('loader').style.display = "none";
 															document.getElementById('sorteado').style.display = "block";
+															start()
 														},
 														(Math.random() * 1000) + 500
 													);
-													start()
 												</script> <?php
 											}
 										}
