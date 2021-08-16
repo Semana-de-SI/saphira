@@ -53,7 +53,7 @@ function timer() {
 }
 
 function returnData(input) {
-  return input > 10 ? input : `0${input}`
+  return input >= 10 ? input : `0${input}`
 }
 </script>
 <!DOCTYPE html>
@@ -87,7 +87,7 @@ function returnData(input) {
 				100% { transform: rotate(360deg); }
 			}
 			span{
-				margin: 15px;
+				margin: 10px;
 				cursor: pointer;
 			}
 		</style>
