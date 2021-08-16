@@ -17,9 +17,9 @@ let millisecond = 0;
 
 let cron;
 
-document.myform.start.onclick = () => start();
-document.myform.pause.onclick = () => pause();
-document.myform.reset.onclick = () => reset();
+document.getElementById('iniciar').onclick = () => start();
+ddocument.getElementById('pausar').onclick = () => pause();
+document.getElementById('resetar').onclick = () => reset();
 
 function start() {
   pause();
@@ -107,10 +107,10 @@ function returnData(input) {
 								<div style="text-align: center;">
 									<div class="loader" id="loader" style="display: none;"></div>
 									<div>
-										<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
+										<span id="minute"  >00</span>:<span id="second"  >00</span>
 									</div>
 									<div>
-										<span onclick="start" style="color:<?php echo $_SESSION['corfundo']?>;">Iniciar</span> <span  onclick="pause" style="color:<?php echo $_SESSION['corfundo']?>;">Pausar</span> <span onclick="reset" style="color:<?php echo $_SESSION['corfundo']?>;">Reiniciar</span>
+										<b><span id="iniciar" style="color:<?php echo $_SESSION['corfundo']?>;">Iniciar</span>     <span id="pausar" style="color:<?php echo $_SESSION['corfundo']?>;">Pausar</span>     <span id="resetar" style="color:<?php echo $_SESSION['corfundo']?>;">Reiniciar</span></b>
 									</div>
 									<button class="btn btn--radius-2" type="button" onclick="start" name="start" style="line-height: all; color:<?php echo $_SESSION['corfundo']?>; border-style:solid; border-width: thin; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Iniciar</button>
 									<button class="btn btn--radius-2" type="button" onclick="pause" name="pause" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Pausar</button>
