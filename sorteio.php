@@ -109,9 +109,12 @@ function returnData(input) {
 									<div>
 										<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
 									</div>
-									<button class="btn btn--radius-2" type="button" onclick="start()" name="start" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Iniciar</button>
-									<button class="btn btn--radius-2" type="button" onclick="pause()" name="pause" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Pausar</button>
-									<button class="btn btn--radius-2" type="button" onclick="reset()" name="reset" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Reiniciar</button>
+									<div>
+										<span onclick="start" style="color:<?php echo $_SESSION['corfundo']?>;">Iniciar</span> <span  onclick="pause" style="color:<?php echo $_SESSION['corfundo']?>;">Pausar</span> <span onclick="reset" style="color:<?php echo $_SESSION['corfundo']?>;">Reiniciar</span>
+									</div>
+									<button class="btn btn--radius-2" type="button" onclick="start" name="start" style="line-height: all; color:<?php echo $_SESSION['corfundo']?>; border-style:solid; border-width: thin; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Iniciar</button>
+									<button class="btn btn--radius-2" type="button" onclick="pause" name="pause" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Pausar</button>
+									<button class="btn btn--radius-2" type="button" onclick="reset" name="reset" style="line-height: all; background-color: white; border-color: <?php echo $_SESSION['corfundo']?>;">Reiniciar</button>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
