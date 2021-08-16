@@ -109,9 +109,9 @@ function returnData(input) {
 									<div>
 										<span id="minute"  >00</span>:<span id="second"  >00</span>:<span id="millisecond"  >000</span>
 									</div>
-									<button type="button" onclick="start()" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
-									<button type="button" onclick="pause()" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
-									<button type="button" onclick="reset()" name="reset" style="background-color: <?php echo $_SESSION['corfundo']?>;">reset</button>
+									<button class="btn btn--radius-2" type="button" onclick="start()" name="start" style="background-color: <?php echo $_SESSION['corfundo']?>;">start</button>
+									<button class="btn btn--radius-2" type="button" onclick="pause()" name="pause" style="background-color: <?php echo $_SESSION['corfundo']?>;">pause</button>
+									<button class="btn btn--radius-2" type="button" onclick="reset()" name="reset" style="background-color: <?php echo $_SESSION['corfundo']?>;">reset</button>
 									<?php
 										if (isset($_POST["Sortear"])) {
 											$sql="SELECT * FROM saphira_presenca WHERE ID_subdivisoes='".$_SESSION['subdivisao']."' ORDER BY RAND() LIMIT 1"; //Usando o operador newID() sortear um vencedor da lista de presentes na palestra
