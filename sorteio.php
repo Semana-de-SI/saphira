@@ -12,7 +12,7 @@
 <html>
 	<head>
 		<link rel="icon" type="image/png" sizes="32x32" href="favicon/logo.png">
-		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="Css.css">
 		<link href="https://fonts.googleapis.com/css?family=Chakra+Petch" rel="stylesheet">
